@@ -2,3 +2,6 @@ baseURL = "www.google.com"
 languageCode = 'en-us'
 title = 'My New Hugo Site'
 theme = "gallery"
+
+[build]
+  timeout = 60000  # Increase the timeout value as needed (in milliseconds)
