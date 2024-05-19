@@ -1,6 +1,6 @@
-baseURL = "/"
+baseURL = "www.google.com"
 languageCode = 'en-us'
-title = 'Nicholas' Hugo Site'
+title = 'My New Hugo Site'
 theme = "gallery"
 
 [build]
