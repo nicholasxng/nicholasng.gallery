@@ -1,4 +1,4 @@
-baseURL = "nicholasxng.github.io/"
+baseURL = "/"
 languageCode = 'en-us'
 title = 'Nicholas' Hugo Site'
 theme = "gallery"
