@@ -1,6 +1,6 @@
 ---
 date: 2023-01-12
-featured_image: milli-2l0CWTpcChI-unsplash.jpg
+featured_image: photomode_26042024_214951.png
 title: Featured Album
 featured: true
 private: true # do not show in list, only as feature
