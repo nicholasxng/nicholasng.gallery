@@ -18,3 +18,13 @@ hugo_stats.json
 
 # Temporary lock file while building
 .hugo_build.lock
+
+# Cloudflare Wrangler
+.wrangler/
+
+# Content raw images (hosted in Cloudflare R2)
+content/**/*.jpg
+content/**/*.jpeg
+content/**/*.png
+content/**/*.webp
+!content/featured.jpg
