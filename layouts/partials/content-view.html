@@ -1,0 +1,16 @@
+{{ partial "title.html" . }}
+{{ if or (eq .Params.layout "page") (not (.Resources.ByType "image")) }}
+  {{ with .Content }}
+    <section class="prose">
+      {{ . }}
+    </section>
+  {{ end }}
+{{ else }}
+  {{ with .Content }}
+    <section class="prose album-intro">
+      {{ . }}
+    </section>
+  {{ end }}
+  {{ partial "gallery.html" . }}
+  {{ partial "related.html" . }}
+{{ end }}

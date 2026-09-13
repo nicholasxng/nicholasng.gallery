@@ -10,12 +10,12 @@
     <priority>{{ .Sitemap.Priority }}</priority>{{ end }}{{ if .IsTranslated }}{{ range .Translations }}
     <xhtml:link
                 rel="alternate"
-                hreflang="{{ .Language.LanguageCode | default .Language.Lang | default "en-us" }}"
+                hreflang="{{ .Language.Lang | default "en-us" }}"
                 href="{{ .Permalink }}"
                 />{{ end }}
     <xhtml:link
                 rel="alternate"
-                hreflang="{{ .Language.LanguageCode | default .Language.Lang | default "en-us" }}"
+                hreflang="{{ .Language.Lang | default "en-us" }}"
                 href="{{ .Permalink }}"
                 />{{ end }}
   </url>

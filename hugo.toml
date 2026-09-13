@@ -6,6 +6,7 @@ title = "Nicholas Ng"
   timeout = 60000
 
 [params]
+  languageCode = "en-us"
   description = "A collection of lens work, travel photography, and visual captures by Nicholas Ng."
   copyright = "© Nicholas Ng. All rights reserved."
 
