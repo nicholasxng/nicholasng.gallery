@@ -1,34 +1,77 @@
 <section class="gallery">
   <div id="gallery" style="visibility: hidden; height: 1px; overflow: hidden">
-    {{ $images := slice }}
-    {{ range $image :=  .Resources.ByType "image" }}
-      {{ $title := "" }}
-      {{ with $image.Exif }}
-        {{ with .Tags.ImageDescription }}
-          {{/* Title from EXIF ImageDescription */}}
-          {{ $title = . }}
+    {{ $manifestResource := .Resources.GetMatch "manifest.json" }}
+    {{ $manifest := "" }}
+    {{ if $manifestResource }}
+      {{ $manifest = $manifestResource.Content | transform.Unmarshal }}
+    {{ end }}
+
+    {{ $items := slice }}
+
+    {{ if $manifest }}
+      {{ range $manifest.images }}
+        {{ $items = $items | append (dict
+          "Name" .name
+          "Title" .title
+          "thumbUrl" .thumbUrl
+          "thumbWidth" .thumbWidth
+          "thumbHeight" .thumbHeight
+          "fullUrl" .fullUrl
+          "fullWidth" .fullWidth
+          "fullHeight" .fullHeight
+          "origUrl" .origUrl
+          "color" (.color | default "transparent")
+          )
+        }}
+      {{ end }}
+    {{ else }}
+      {{ $images := slice }}
+      {{ range $image := .Resources.ByType "image" }}
+        {{ $title := "" }}
+        {{ with $image.Exif }}
+          {{ with .Tags.ImageDescription }}
+            {{/* Title from EXIF ImageDescription */}}
+            {{ $title = . }}
+          {{ end }}
         {{ end }}
+
+        {{ if ne $image.Title $image.Name }}
+          {{/* Title from front matter */}}
+          {{ $title = $image.Title }}
+        {{ end }}
+        {{ $images = $images | append (dict
+          "Name" $image.Name
+          "Title" $title
+          "image" $image
+          )
+        }}
       {{ end }}
 
-      {{ if ne $image.Title $image.Name }}
-        {{/* Title from front matter */}}
-        {{ $title = $image.Title }}
+      {{ range $images }}
+        {{ $image := .image }}
+        {{ $thumbnail := $image.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
+        {{ $full := $image.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
+        {{ $color := index $thumbnail.Colors 0 | default "transparent" }}
+        {{ $items = $items | append (dict
+          "Name" .Name
+          "Title" .Title
+          "thumbUrl" $thumbnail.RelPermalink
+          "thumbWidth" $thumbnail.Width
+          "thumbHeight" $thumbnail.Height
+          "fullUrl" $full.RelPermalink
+          "fullWidth" $full.Width
+          "fullHeight" $full.Height
+          "origUrl" $image.RelPermalink
+          "color" $color
+          )
+        }}
       {{ end }}
-      {{ $images = $images | append (dict
-        "Name" $image.Name
-        "Title" $title
-        "image" $image
-        )
-      }}
     {{ end }}
-    {{ range sort $images (.Params.sort_by | default "Name") (.Params.sort_order | default "asc") }}
-      {{ $image := .image }}
-      {{ $thumbnail := $image.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
-      {{ $full := $image.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
-      {{ $color := index $thumbnail.Colors 0 | default "transparent" }}
-      <a class="gallery-item" href="{{ $image.RelPermalink }}" data-pswp-src="{{ $full.RelPermalink }}" data-pswp-width="{{ $full.Width }}" data-pswp-height="{{ $full.Height }}" title="{{ .Title }}" itemscope itemtype="https://schema.org/ImageObject" style="aspect-ratio: {{ $thumbnail.Width }} / {{ $thumbnail.Height }}">
-        <img loading="lazy" width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}" src="{{ $thumbnail.RelPermalink }}" style="background-color: {{ $color }}" alt="{{ .Title }}" />
-        <meta itemprop="contentUrl" content="{{ $image.RelPermalink }}" />
+
+    {{ range sort $items (.Params.sort_by | default "Name") (.Params.sort_order | default "asc") }}
+      <a class="gallery-item" href="{{ .origUrl }}" data-pswp-src="{{ .fullUrl }}" data-pswp-width="{{ .fullWidth }}" data-pswp-height="{{ .fullHeight }}" title="{{ .Title }}" itemscope itemtype="https://schema.org/ImageObject" style="aspect-ratio: {{ .thumbWidth }} / {{ .thumbHeight }}">
+        <img loading="lazy" width="{{ .thumbWidth }}" height="{{ .thumbHeight }}" src="{{ .thumbUrl }}" style="background-color: {{ .color }}" alt="{{ .Title }}" />
+        <meta itemprop="contentUrl" content="{{ .origUrl }}" />
         {{ with site.Params.Author }}
           <span itemprop="creator" itemtype="https://schema.org/Person" itemscope>
             <meta itemprop="name" content="{{ site.Params.Author.name }}" />
@@ -38,3 +81,4 @@
     {{ end }}
   </div>
 </section>
+

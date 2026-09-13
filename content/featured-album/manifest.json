@@ -1,0 +1,59 @@
+{
+  "album": "featured-album",
+  "count": 4,
+  "updatedAt": "2026-09-13T07:13:38.773Z",
+  "images": [
+    {
+      "name": "photomode_21032024_232419.png",
+      "baseName": "photomode_21032024_232419",
+      "title": "photomode_21032024_232419",
+      "thumbUrl": "https://media.nicholasng.me/featured-album/600/photomode_21032024_232419.webp",
+      "thumbWidth": 600,
+      "thumbHeight": 251,
+      "fullUrl": "https://media.nicholasng.me/featured-album/1600/photomode_21032024_232419.webp",
+      "fullWidth": 1600,
+      "fullHeight": 670,
+      "origUrl": "https://media.nicholasng.me/featured-album/original/photomode_21032024_232419.png",
+      "color": "#181808"
+    },
+    {
+      "name": "photomode_26042024_214951.png",
+      "baseName": "photomode_26042024_214951",
+      "title": "photomode_26042024_214951",
+      "thumbUrl": "https://media.nicholasng.me/featured-album/600/photomode_26042024_214951.webp",
+      "thumbWidth": 600,
+      "thumbHeight": 251,
+      "fullUrl": "https://media.nicholasng.me/featured-album/1600/photomode_26042024_214951.webp",
+      "fullWidth": 1600,
+      "fullHeight": 670,
+      "origUrl": "https://media.nicholasng.me/featured-album/original/photomode_26042024_214951.png",
+      "color": "#080808"
+    },
+    {
+      "name": "photomode_29042024_235807.png",
+      "baseName": "photomode_29042024_235807",
+      "title": "photomode_29042024_235807",
+      "thumbUrl": "https://media.nicholasng.me/featured-album/600/photomode_29042024_235807.webp",
+      "thumbWidth": 600,
+      "thumbHeight": 251,
+      "fullUrl": "https://media.nicholasng.me/featured-album/1600/photomode_29042024_235807.webp",
+      "fullWidth": 1600,
+      "fullHeight": 670,
+      "origUrl": "https://media.nicholasng.me/featured-album/original/photomode_29042024_235807.png",
+      "color": "#282818"
+    },
+    {
+      "name": "photomode_30042024_164212.png",
+      "baseName": "photomode_30042024_164212",
+      "title": "photomode_30042024_164212",
+      "thumbUrl": "https://media.nicholasng.me/featured-album/600/photomode_30042024_164212.webp",
+      "thumbWidth": 600,
+      "thumbHeight": 251,
+      "fullUrl": "https://media.nicholasng.me/featured-album/1600/photomode_30042024_164212.webp",
+      "fullWidth": 1600,
+      "fullHeight": 670,
+      "origUrl": "https://media.nicholasng.me/featured-album/original/photomode_30042024_164212.png",
+      "color": "#084878"
+    }
+  ]
+}

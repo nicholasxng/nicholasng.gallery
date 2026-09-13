@@ -1,22 +1,69 @@
 {{ $gallery := "" }}
+{{ $manifestResource := .Resources.GetMatch "manifest.json" }}
+{{ $manifest := "" }}
+{{ if $manifestResource }}
+  {{ $manifest = $manifestResource.Content | transform.Unmarshal }}
+{{ end }}
+
 {{ $images := .Resources.ByType "image" }}
-{{ if gt (len $images) 0 }}
-  {{ $featured := ($images.GetMatch (.Params.featured_image | default "*feature*")) | default (index $images 0) }}
-  {{ $thumbnail := $featured.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
-  {{ $color := index $thumbnail.Colors 0 | default "transparent" }}
+{{ $hasImages := or (and $manifest (gt (len $manifest.images) 0)) (gt (len $images) 0) }}
+
+{{ if $hasImages }}
+  {{ $thumbnail := "" }}
+  {{ $color := "transparent" }}
   {{ $imageCount := 0 }}
   {{ $albumCount := 0 }}
-  {{ if .IsPage }}
-    {{ $imageCount = len $images }}
-  {{ else }}
-    {{ range where .RegularPagesRecursive "Params.private" "ne" true }}
-      {{ $albumCount = add $albumCount 1 }}
-      {{ $imageCount = add $imageCount (len (.Resources.ByType "image")) }}
+
+  {{ if $manifest }}
+    {{ $featuredName := .Params.featured_image | default "" }}
+    {{ $chosenImg := index $manifest.images 0 }}
+    {{ if $featuredName }}
+      {{ range $manifest.images }}
+        {{ if or (eq .name $featuredName) (eq .baseName $featuredName) }}
+          {{ $chosenImg = . }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ $thumbnail = dict
+      "RelPermalink" $chosenImg.thumbUrl
+      "Width" $chosenImg.thumbWidth
+      "Height" $chosenImg.thumbHeight
+    }}
+    {{ $color = $chosenImg.color | default "#1a1a1a" }}
+    {{ if .IsPage }}
+      {{ $imageCount = len $manifest.images }}
+    {{ end }}
+  {{ else if gt (len $images) 0 }}
+    {{ $featured := ($images.GetMatch (.Params.featured_image | default "*feature*")) | default (index $images 0) }}
+    {{ $processed := $featured.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
+    {{ $thumbnail = dict
+      "RelPermalink" $processed.RelPermalink
+      "Width" $processed.Width
+      "Height" $processed.Height
+    }}
+    {{ $color = index $processed.Colors 0 | default "transparent" }}
+    {{ if .IsPage }}
+      {{ $imageCount = len $images }}
     {{ end }}
   {{ end }}
+
+  {{ if not .IsPage }}
+    {{ range where .RegularPagesRecursive "Params.private" "ne" true }}
+      {{ $albumCount = add $albumCount 1 }}
+      {{ $subManifestRes := .Resources.GetMatch "manifest.json" }}
+      {{ if $subManifestRes }}
+        {{ $subManifest := $subManifestRes.Content | transform.Unmarshal }}
+        {{ $imageCount = add $imageCount (len $subManifest.images) }}
+      {{ else }}
+        {{ $imageCount = add $imageCount (len (.Resources.ByType "image")) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
   {{ $gallery = dict
     "page" $
     "images" $images
+    "manifest" $manifest
     "thumbnail" $thumbnail
     "color" $color
     "albumCount" $albumCount
@@ -24,3 +71,4 @@
   }}
 {{ end }}
 {{ return $gallery }}
+

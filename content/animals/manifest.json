@@ -1,0 +1,20 @@
+{
+  "album": "animals",
+  "count": 1,
+  "updatedAt": "2026-09-13T07:13:37.185Z",
+  "images": [
+    {
+      "name": "20181210_003519951_iOS.jpg",
+      "baseName": "20181210_003519951_iOS",
+      "title": "20181210_003519951_iOS",
+      "thumbUrl": "https://media.nicholasng.me/animals/600/20181210_003519951_iOS.webp",
+      "thumbWidth": 451,
+      "thumbHeight": 600,
+      "fullUrl": "https://media.nicholasng.me/animals/1600/20181210_003519951_iOS.webp",
+      "fullWidth": 1202,
+      "fullHeight": 1600,
+      "origUrl": "https://media.nicholasng.me/animals/original/20181210_003519951_iOS.jpg",
+      "color": "#f8f8f8"
+    }
+  ]
+}
