@@ -3,6 +3,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ with .Title }}{{ . }} -{{ end }} {{ .Site.Title }}</title>
   <link rel="canonical" href="{{ .Permalink }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      try {
+        const stored = localStorage.getItem('theme');
+        if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else if (stored === 'light') {
+          document.documentElement.classList.add('light');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
   <link rel="icon" type="image/svg+xml" href="{{ "images/favicon.svg" | relURL }}" />
   <link rel="icon" type="image/png" href="{{ "images/favicon.png" | relURL }}" />
   <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}" />

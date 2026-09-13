@@ -1,7 +1,16 @@
-baseURL = "www.google.com"
-languageCode = 'en-us'
-title = 'Nicks Gallery'
-theme = "gallery"
+baseURL = "https://nicholasng.gallery/"
+locale = "en-us"
+title = "Nicholas Ng"
 
 [build]
-  timeout = 60000  # Increase the timeout value as needed (in milliseconds)
+  timeout = 60000
+
+[params]
+  description = "A collection of lens work, travel photography, and visual captures by Nicholas Ng."
+  copyright = "© Nicholas Ng. All rights reserved."
+
+  [params.author]
+    name = "Nicholas Ng"
+
+  [params.socialIcons]
+    github = "https://github.com/nicholasxng"

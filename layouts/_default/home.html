@@ -1,9 +1,14 @@
 {{ define "main" }}
-  {{ partial "title.html" . }}
   {{ partial "featured.html" . }}
-  <section class="galleries">
-    {{ range where .Pages "Params.private" "ne" true }}
-      {{ partial "album-card.html" . }}
-    {{ end }}
+  <section class="galleries-section">
+    <div class="galleries-section-header">
+      <span class="section-label">CURATED GALLERIES</span>
+      <span class="section-divider"></span>
+    </div>
+    <div class="galleries">
+      {{ range where .Pages "Params.private" "ne" true }}
+        {{ partial "album-card.html" . }}
+      {{ end }}
+    </div>
   </section>
 {{ end }}

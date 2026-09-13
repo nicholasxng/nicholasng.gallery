@@ -1,28 +1,67 @@
 :root {
-  --surface-1-light: #ffffff;
-  --surface-2-light: #e5e5e5;
-  --text-1-light: #0a0a0a;
-  --text-2-light: #737373;
-  --surface-1-dark: #171717;
-  --surface-2-dark: #404040;
-  --text-1-dark: #fafafa;
-  --text-2-dark: #a3a3a3;
+  /* Amber Tech Narrative - Light Theme Tokens */
+  --surface-1-light: #fcf9f8;
+  --surface-2-light: #f1eded;
+  --surface-container-low-light: #f6f3f2;
+  --surface-container-high-light: #ebe7e7;
+  --surface-container-highest-light: #e5e1e1;
+  --text-1-light: #1d1b1a;
+  --text-2-light: #4b4644;
+  --outline-light: #7c7673;
+  --outline-variant-light: #cdc5c2;
+
+  /* Amber Tech Narrative - Dark Theme Tokens */
+  --surface-1-dark: #131211;
+  --surface-2-dark: #1d1b1a;
+  --surface-container-low-dark: #181615;
+  --surface-container-high-dark: #272524;
+  --surface-container-highest-dark: #33302f;
+  --text-1-dark: #fcf9f8;
+  --text-2-dark: #cdc5c2;
+  --outline-dark: #7c7673;
+  --outline-variant-dark: #4b4644;
+
+  /* Primary Brand Accents */
+  --primary: #dfa129;
+  --primary-hover: #ca8e1d;
+  --on-primary: #ffffff;
+  --primary-container: #ffe0ab;
+  --on-primary-container: #261a00;
+
+  /* Secondary Accents */
+  --secondary: #6c5d3f;
+  --on-secondary: #ffffff;
+  --secondary-container: #f6e1bb;
+  --on-secondary-container: #251a04;
+
+  /* Tertiary / Nature Green */
+  --tertiary: #4a6547;
+  --tertiary-container: #ccebc5;
+
+  /* Fonts */
+  --font-family: "Epilogue", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 :root {
   color-scheme: light dark;
   --surface-1: var(--surface-1-light);
   --surface-2: var(--surface-2-light);
+  --surface-container-high: var(--surface-container-high-light);
   --text-1: var(--text-1-light);
   --text-2: var(--text-2-light);
+  --outline: var(--outline-light);
+  --outline-variant: var(--outline-variant-light);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --surface-1: var(--surface-1-dark);
     --surface-2: var(--surface-2-dark);
+    --surface-container-high: var(--surface-container-high-dark);
     --text-1: var(--text-1-dark);
     --text-2: var(--text-2-dark);
+    --outline: var(--outline-dark);
+    --outline-variant: var(--outline-variant-dark);
   }
 }
 
@@ -30,14 +69,20 @@ html.light {
   color-scheme: light;
   --surface-1: var(--surface-1-light);
   --surface-2: var(--surface-2-light);
+  --surface-container-high: var(--surface-container-high-light);
   --text-1: var(--text-1-light);
   --text-2: var(--text-2-light);
+  --outline: var(--outline-light);
+  --outline-variant: var(--outline-variant-light);
 }
 
 html.dark {
   color-scheme: dark;
   --surface-1: var(--surface-1-dark);
   --surface-2: var(--surface-2-dark);
+  --surface-container-high: var(--surface-container-high-dark);
   --text-1: var(--text-1-dark);
   --text-2: var(--text-2-dark);
+  --outline: var(--outline-dark);
+  --outline-variant: var(--outline-variant-dark);
 }

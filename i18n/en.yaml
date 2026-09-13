@@ -1,0 +1,15 @@
+photoCount:
+  one: "{{ . }} photo"
+  other: "{{ . }} photos"
+albumCount:
+  one: "{{ . }} album"
+  other: "{{ . }} albums"
+in: "in"
+menu: "Menu"
+relatedAlbums: "Related Albums"
+closeTitle: "Close"
+zoomTitle: "Zoom in/out"
+arrowPrevTitle: "Previous (arrow left)"
+arrowNextTitle: "Next (arrow right)"
+errorMsg: "The image cannot be loaded"
+downloadTitle: "Download original"

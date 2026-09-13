@@ -1,12 +1,9 @@
 ---
-description: A collection of my lens work
-#lastmod: 2023-07-05
-title: Hugo Gallery
-featured_image: martin-martz-wRuhOOaG-Z4-unsplash.jpg # default: first image in this directory
-# featured_image on the home page is used for OpenGraph cards, etc.
+description: A collection of lens work and visual captures
+title: Nicholas Ng
+featured_image: featured.jpg
 menus:
   main:
-    name: Home
+    name: Work
     weight: -1
-# sub-galleries on list pages are sorted by date and weight (descending)
 ---
