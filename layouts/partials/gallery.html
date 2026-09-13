@@ -3,13 +3,7 @@
     {{ $images := slice }}
     {{ range $image :=  .Resources.ByType "image" }}
       {{ $title := "" }}
-      {{ $exif := "" }}
-      {{ with $image.Meta }}
-        {{ $exif = .Exif }}
-      {{ else }}
-        {{ with $image.Exif }}{{ $exif = . }}{{ end }}
-      {{ end }}
-      {{ with $exif }}
+      {{ with $image.Exif }}
         {{ with .Tags.ImageDescription }}
           {{/* Title from EXIF ImageDescription */}}
           {{ $title = . }}
