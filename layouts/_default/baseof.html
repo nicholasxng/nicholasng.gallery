@@ -1,6 +1,6 @@
 <!doctype html>
 {{- $theme := .Params.theme }}
-<html {{- with $theme }} class="{{ . }}"{{ end }} lang="{{- site.Language.Locale | default "en" -}}">
+<html {{- with $theme }} class="{{ . }}"{{ end }} lang="{{- or .Site.Language.Locale .Site.Language.Lang "en-us" -}}">
 
 
   {{ partial "head.html" . }}
