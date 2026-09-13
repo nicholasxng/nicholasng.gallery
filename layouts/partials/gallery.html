@@ -9,6 +9,7 @@
           {{ $title = . }}
         {{ end }}
       {{ end }}
+
       {{ if ne $image.Title $image.Name }}
         {{/* Title from front matter */}}
         {{ $title = $image.Title }}

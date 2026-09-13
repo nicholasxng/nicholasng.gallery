@@ -5,14 +5,36 @@
     {{ $featured := ($images.GetMatch (.Params.featured_image | default "*feature*")) | default (index $images 0) }}
     {{ $thumbnail := $featured.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
     {{ $color := index $thumbnail.Colors 0 | default "transparent" }}
-    <section class="featured">
-      <a class="featured-card" href="{{ .RelPermalink }}" style="background-image: url({{ $thumbnail.RelPermalink }})">
-        <div>
+    <section class="featured" id="featured">
+      <div class="featured-header-row">
+        <span class="section-label">SPOTLIGHT</span>
+        <span class="section-divider"></span>
+      </div>
+      <a class="featured-card" href="{{ .RelPermalink }}" style="background-image: url({{ $thumbnail.RelPermalink }})" title="View {{ .Title }}">
+        <div class="featured-badges-top">
+          <span class="badge-pill badge-pill--accent">
+            <span class="badge-dot"></span>
+            FEATURED ALBUM
+          </span>
+          <span class="badge-arrow" aria-hidden="true">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+            </svg>
+          </span>
+        </div>
+        <div class="featured-content-bottom">
+          <span class="featured-category">{{ .Params.category | default "FEATURED COLLECTION" }}</span>
           <h2>{{ .Title }}</h2>
-          <p>
-            {{ T "photoCount" ($gallery.imageCount | lang.FormatNumber 0) }}
-            {{ if gt $gallery.albumCount 0 }}{{ T "in" }} {{ T "albumCount" ($gallery.albumCount | lang.FormatNumber 0) }}{{ end }}
-          </p>
+          <div class="featured-meta-row">
+            <span class="meta-chip">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.75 2.75 0 0 1 2.332-1.391ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"/>
+              </svg>
+              {{ T "photoCount" ($gallery.imageCount | lang.FormatNumber 0) }}
+            </span>
+            <span class="meta-view-prompt">EXPLORE COLLECTION &rarr;</span>
+          </div>
         </div>
       </a>
     </section>
