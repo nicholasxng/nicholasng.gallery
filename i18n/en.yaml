@@ -1,11 +1,7 @@
 photoCount:
   one: "{{ . }} photo"
   other: "{{ . }} photos"
-albumCount:
-  one: "{{ . }} album"
-  other: "{{ . }} albums"
-in: "in"
-menu: "Menu"
+pageNotFound: "The page you are looking for could not be found."
 relatedAlbums: "Related Albums"
 closeTitle: "Close"
 zoomTitle: "Zoom in/out"

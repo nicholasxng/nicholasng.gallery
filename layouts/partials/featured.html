@@ -23,7 +23,7 @@
           </span>
         </div>
         <div class="featured-content-bottom">
-          <span class="featured-category">GAME PHOTOGRAPHY &middot; CAPTURES</span>
+          <span class="featured-category">{{ .Params.category | default "FEATURED COLLECTION" }}</span>
           <h2>{{ .Title }}</h2>
           <div class="featured-meta-row">
             <span class="meta-chip">

@@ -2,7 +2,7 @@
 title: Imprint & Colophon
 rss_ignore: true
 layout: page
-menu:
+menus:
   footer:
     weight: 1
 ---
