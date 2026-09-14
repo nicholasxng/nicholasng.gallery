@@ -44,14 +44,10 @@ jobs:
           hugo-version: "0.125.4"
           extended: true
 
-      - name: Build with Hugo
+      - name: Build site (Ingestion & Hugo)
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
           TZ: America/Los_Angeles
-        run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "https://gallery.nicholasng.me/"
+        run: npm run build -- --baseURL "https://gallery.nicholasng.me/"
 
