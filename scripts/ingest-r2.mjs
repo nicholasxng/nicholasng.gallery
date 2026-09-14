@@ -6,7 +6,7 @@ import pLimit from "p-limit";
 import { S3Client, ListObjectsV2Command, HeadObjectCommand, GetObjectCommand, PutObjectCommand, CopyObjectCommand } from "@aws-sdk/client-s3";
 
 const CONTENT_DIR = path.resolve(process.cwd(), "content");
-const R2_PUBLIC_BASE = (process.env.R2_PUBLIC_URL || "https://pub-657073abb9ad4bbd986249bf57a80582.r2.dev").replace(/\/+$/, "");
+const R2_PUBLIC_BASE = (process.env.R2_PUBLIC_URL || "https://media.nicholasng.me").replace(/\/+$/, "");
 const R2_BUCKET = process.env.R2_BUCKET || "nicholasng-gallery";
 const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "49e11352d05de6bed87d3c5765cb89d5";
 const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
