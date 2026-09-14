@@ -1,11 +1,6 @@
 {{ partial "title.html" . }}
-{{ if or (eq .Params.layout "page") (not (.Resources.ByType "image")) }}
-  {{ with .Content }}
-    <section class="prose">
-      {{ . }}
-    </section>
-  {{ end }}
-{{ else }}
+{{ $hasGallery := or (.Resources.GetMatch "manifest.json") (.Resources.ByType "image") }}
+{{ if and (ne .Params.layout "page") $hasGallery }}
   {{ with .Content }}
     <section class="prose album-intro">
       {{ . }}
@@ -13,4 +8,11 @@
   {{ end }}
   {{ partial "gallery.html" . }}
   {{ partial "related.html" . }}
+{{ else }}
+  {{ with .Content }}
+    <section class="prose">
+      {{ . }}
+    </section>
+  {{ end }}
 {{ end }}
+

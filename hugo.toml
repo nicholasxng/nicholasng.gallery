@@ -1,6 +1,7 @@
-baseURL = "https://nicholasng.gallery/"
+baseURL = "https://gallery.nicholasng.me/"
 locale = "en-us"
 title = "Nicholas Ng"
+
 
 [build]
   timeout = 60000

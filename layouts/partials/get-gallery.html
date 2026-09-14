@@ -1,26 +1,150 @@
 {{ $gallery := "" }}
-{{ $images := .Resources.ByType "image" }}
-{{ if gt (len $images) 0 }}
-  {{ $featured := ($images.GetMatch (.Params.featured_image | default "*feature*")) | default (index $images 0) }}
-  {{ $thumbnail := $featured.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
-  {{ $color := index $thumbnail.Colors 0 | default "transparent" }}
+{{ $manifestResource := .Resources.GetMatch "manifest.json" }}
+{{ $manifest := "" }}
+{{ $manifestImages := slice }}
+{{ if $manifestResource }}
+  {{ $manifest = $manifestResource.Content | transform.Unmarshal }}
+  {{ with $manifest }}
+    {{ $manifestImages = .images | default slice }}
+  {{ end }}
+{{ end }}
+
+{{ $localImages := .Resources.ByType "image" }}
+{{ $hasLocal := gt (len $localImages) 0 }}
+{{ $hasManifest := gt (len $manifestImages) 0 }}
+
+{{ if or $hasLocal $hasManifest }}
+  {{ $thumbnail := "" }}
+  {{ $full := "" }}
+  {{ $color := "transparent" }}
   {{ $imageCount := 0 }}
   {{ $albumCount := 0 }}
-  {{ if .IsPage }}
-    {{ $imageCount = len $images }}
-  {{ else }}
-    {{ range where .RegularPagesRecursive "Params.private" "ne" true }}
-      {{ $albumCount = add $albumCount 1 }}
-      {{ $imageCount = add $imageCount (len (.Resources.ByType "image")) }}
+  {{ $items := slice }}
+
+  {{/* If local images exist on the page, prioritize them for offline editing */}}
+  {{ if $hasLocal }}
+    {{ $images := slice }}
+    {{ range $image := $localImages }}
+      {{ $title := "" }}
+      {{ with $image.Exif }}
+        {{ with .Tags.ImageDescription }}
+          {{ $title = . }}
+        {{ end }}
+      {{ end }}
+      {{ if ne $image.Title $image.Name }}
+        {{ $title = $image.Title }}
+      {{ end }}
+      {{ $images = $images | append (dict "Name" $image.Name "Title" $title "image" $image) }}
+    {{ end }}
+
+    {{ range $images }}
+      {{ $img := .image }}
+      {{ $thumb := $img.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
+      {{ $f := $img.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
+      {{ $c := index $thumb.Colors 0 | default "transparent" }}
+      {{ $items = $items | append (dict
+        "Name" .Name
+        "Title" .Title
+        "thumbUrl" $thumb.RelPermalink
+        "thumbWidth" $thumb.Width
+        "thumbHeight" $thumb.Height
+        "fullUrl" $f.RelPermalink
+        "fullWidth" $f.Width
+        "fullHeight" $f.Height
+        "origUrl" $img.RelPermalink
+        "color" $c
+      ) }}
+    {{ end }}
+
+    {{ $featured := ($localImages.GetMatch (.Params.featured_image | default "*feature*")) | default (index $localImages 0) }}
+    {{ $featThumb := $featured.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
+    {{ $featFull := $featured.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
+    {{ $thumbnail = dict
+      "RelPermalink" $featThumb.RelPermalink
+      "Permalink" $featThumb.Permalink
+      "Width" $featThumb.Width
+      "Height" $featThumb.Height
+      "MediaType" ($featThumb.MediaType | default "image/jpeg")
+    }}
+    {{ $full = dict
+      "RelPermalink" $featFull.RelPermalink
+      "Permalink" $featFull.Permalink
+      "Width" $featFull.Width
+      "Height" $featFull.Height
+      "MediaType" ($featFull.MediaType | default "image/jpeg")
+    }}
+    {{ $color = index $featThumb.Colors 0 | default "transparent" }}
+    {{ if .IsPage }}
+      {{ $imageCount = len $localImages }}
+    {{ end }}
+
+  {{ else if $hasManifest }}
+    {{ range $manifestImages }}
+      {{ $items = $items | append (dict
+        "Name" .name
+        "Title" .title
+        "thumbUrl" .thumbUrl
+        "thumbWidth" .thumbWidth
+        "thumbHeight" .thumbHeight
+        "fullUrl" .fullUrl
+        "fullWidth" .fullWidth
+        "fullHeight" .fullHeight
+        "origUrl" .origUrl
+        "color" (.color | default "transparent")
+      ) }}
+    {{ end }}
+
+    {{ $featuredName := .Params.featured_image | default "" }}
+    {{ $chosenImg := index $manifestImages 0 }}
+    {{ if $featuredName }}
+      {{ range $manifestImages }}
+        {{ if or (eq .name $featuredName) (eq .baseName $featuredName) }}
+          {{ $chosenImg = . }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+    {{ $thumbnail = dict
+      "RelPermalink" $chosenImg.thumbUrl
+      "Permalink" ($chosenImg.thumbUrl | absURL)
+      "Width" $chosenImg.thumbWidth
+      "Height" $chosenImg.thumbHeight
+      "MediaType" "image/webp"
+    }}
+    {{ $full = dict
+      "RelPermalink" $chosenImg.fullUrl
+      "Permalink" ($chosenImg.fullUrl | absURL)
+      "Width" $chosenImg.fullWidth
+      "Height" $chosenImg.fullHeight
+      "MediaType" "image/webp"
+    }}
+    {{ $color = $chosenImg.color | default "#1a1a1a" }}
+    {{ if .IsPage }}
+      {{ $imageCount = len $manifestImages }}
     {{ end }}
   {{ end }}
+
+  {{ if not .IsPage }}
+    {{ range where .RegularPagesRecursive "Params.private" "ne" true }}
+      {{ $albumCount = add $albumCount 1 }}
+      {{ $subGallery := partial "get-gallery.html" . }}
+      {{ if $subGallery }}
+        {{ $imageCount = add $imageCount $subGallery.imageCount }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
   {{ $gallery = dict
     "page" $
-    "images" $images
+    "images" $localImages
+    "manifest" $manifest
+    "items" $items
     "thumbnail" $thumbnail
+    "full" $full
     "color" $color
     "albumCount" $albumCount
     "imageCount" $imageCount
   }}
 {{ end }}
 {{ return $gallery }}
+

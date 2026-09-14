@@ -1,16 +1,14 @@
 {{ range where site.Pages.ByDate.Reverse "Params.featured" "=" true | first 1 }}
   {{ $gallery := partial "get-gallery.html" . }}
   {{ if $gallery }}
-    {{ $images := .Resources.ByType "image" }}
-    {{ $featured := ($images.GetMatch (.Params.featured_image | default "*feature*")) | default (index $images 0) }}
-    {{ $thumbnail := $featured.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
-    {{ $color := index $thumbnail.Colors 0 | default "transparent" }}
+    {{ $bgUrl := or $gallery.full.RelPermalink $gallery.thumbnail.RelPermalink }}
     <section class="featured" id="featured">
       <div class="featured-header-row">
         <span class="section-label">SPOTLIGHT</span>
         <span class="section-divider"></span>
       </div>
-      <a class="featured-card" href="{{ .RelPermalink }}" style="background-image: url({{ $thumbnail.RelPermalink }})" title="View {{ .Title }}">
+      <a class="featured-card" href="{{ .RelPermalink }}" style="background-image: url({{ $bgUrl }})" title="View {{ .Title }}">
+
         <div class="featured-badges-top">
           <span class="badge-pill badge-pill--accent">
             <span class="badge-dot"></span>
