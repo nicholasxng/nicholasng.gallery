@@ -6,7 +6,7 @@
 {{- $ogImage := "" -}}
 {{- $gallery := partial "get-gallery.html" . -}}
 {{- if $gallery -}}
-  {{- $ogImage = or $gallery.full.RelPermalink $gallery.thumbnail.RelPermalink -}}
+  {{- $ogImage = or $gallery.full.Permalink $gallery.thumbnail.Permalink | absURL -}}
 {{- end -}}
 
 {{- with $ogImage -}}

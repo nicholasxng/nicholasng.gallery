@@ -53,7 +53,7 @@ All raw photography assets live in Cloudflare R2 (`nicholasng-gallery`). Git con
    - Discovers new originals and checks existing derivatives idempotently via `HeadObjectCommand`.
    - Generates 1600px display and 600px thumbnail WebP derivatives with Sharp.
    - Saves dominant color hex, dimensions, and EXIF title directly into S3 metadata headers (`x-amz-meta-*`).
-   - If an original photo is replaced in R2 with the same name, ETag change detection automatically triggers derivative regeneration. (You can also pass `R2_FORCE=1` or `--force`).
+   - If an original photo is replaced in R2 with the same name, ETag change detection automatically triggers derivative regeneration. (You can also force re-processing via `npm run ingest -- --force` or `R2_FORCE=1 npm run build`).
    - Note on deletions: Removing an original photo from R2 removes it from the manifest on subsequent builds; existing derivatives remain in R2 unless manually pruned.
    - Builds static site with Hugo and deploys via Cloudflare edge CDN (`media.nicholasng.me`).
 

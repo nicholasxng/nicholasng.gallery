@@ -59,8 +59,20 @@
     {{ $featured := ($localImages.GetMatch (.Params.featured_image | default "*feature*")) | default (index $localImages 0) }}
     {{ $featThumb := $featured.Filter (slice images.AutoOrient (images.Process "fit 600x600")) }}
     {{ $featFull := $featured.Filter (slice images.AutoOrient (images.Process "fit 1600x1600")) }}
-    {{ $thumbnail = dict "RelPermalink" $featThumb.RelPermalink "Width" $featThumb.Width "Height" $featThumb.Height }}
-    {{ $full = dict "RelPermalink" $featFull.RelPermalink "Width" $featFull.Width "Height" $featFull.Height }}
+    {{ $thumbnail = dict
+      "RelPermalink" $featThumb.RelPermalink
+      "Permalink" $featThumb.Permalink
+      "Width" $featThumb.Width
+      "Height" $featThumb.Height
+      "MediaType" ($featThumb.MediaType | default "image/jpeg")
+    }}
+    {{ $full = dict
+      "RelPermalink" $featFull.RelPermalink
+      "Permalink" $featFull.Permalink
+      "Width" $featFull.Width
+      "Height" $featFull.Height
+      "MediaType" ($featFull.MediaType | default "image/jpeg")
+    }}
     {{ $color = index $featThumb.Colors 0 | default "transparent" }}
     {{ if .IsPage }}
       {{ $imageCount = len $localImages }}
@@ -92,8 +104,20 @@
       {{ end }}
     {{ end }}
 
-    {{ $thumbnail = dict "RelPermalink" $chosenImg.thumbUrl "Width" $chosenImg.thumbWidth "Height" $chosenImg.thumbHeight }}
-    {{ $full = dict "RelPermalink" $chosenImg.fullUrl "Width" $chosenImg.fullWidth "Height" $chosenImg.fullHeight }}
+    {{ $thumbnail = dict
+      "RelPermalink" $chosenImg.thumbUrl
+      "Permalink" ($chosenImg.thumbUrl | absURL)
+      "Width" $chosenImg.thumbWidth
+      "Height" $chosenImg.thumbHeight
+      "MediaType" "image/webp"
+    }}
+    {{ $full = dict
+      "RelPermalink" $chosenImg.fullUrl
+      "Permalink" ($chosenImg.fullUrl | absURL)
+      "Width" $chosenImg.fullWidth
+      "Height" $chosenImg.fullHeight
+      "MediaType" "image/webp"
+    }}
     {{ $color = $chosenImg.color | default "#1a1a1a" }}
     {{ if .IsPage }}
       {{ $imageCount = len $manifestImages }}

@@ -38,9 +38,9 @@
       <guid>{{ .Permalink }}</guid>
       {{- $gallery := partial "get-gallery.html" . -}}
       {{- if $gallery -}}
-        <media:content url="{{ $gallery.thumbnail.RelPermalink }}" type="image/webp"/>
+        <media:content url="{{ $gallery.thumbnail.Permalink | absURL }}" type="{{ $gallery.thumbnail.MediaType | default "image/webp" }}"/>
         <description>
-          &lt;img src=&quot;{{ $gallery.thumbnail.RelPermalink }}&quot; /&gt;
+          &lt;img src=&quot;{{ $gallery.thumbnail.Permalink | absURL }}&quot; /&gt;
           &lt;p&gt;{{ .Params.description | html }}&lt;/p&gt;
         </description>
       {{- else -}}
