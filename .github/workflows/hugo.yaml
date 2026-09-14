@@ -48,6 +48,7 @@ jobs:
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
+          HUGO_BASEURL: "https://gallery.nicholasng.me/"
           TZ: America/Los_Angeles
-        run: npm run build -- --baseURL "https://gallery.nicholasng.me/"
+        run: npm run build
 

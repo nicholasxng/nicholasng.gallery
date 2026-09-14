@@ -23,8 +23,9 @@ hugo_stats.json
 .wrangler/
 
 # Content raw images (hosted in Cloudflare R2)
-content/**/*.jpg
-content/**/*.jpeg
-content/**/*.png
-content/**/*.webp
+content/**/*.[jJ][pP][gG]
+content/**/*.[jJ][pP][eE][gG]
+content/**/*.[pP][nN][gG]
+content/**/*.[wW][eE][bB][pP]
+content/**/*.[aA][vV][iI][fF]
 !content/featured.jpg

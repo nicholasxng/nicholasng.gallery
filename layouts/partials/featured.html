@@ -1,7 +1,7 @@
 {{ range where site.Pages.ByDate.Reverse "Params.featured" "=" true | first 1 }}
   {{ $gallery := partial "get-gallery.html" . }}
   {{ if $gallery }}
-    {{ $bgUrl := $gallery.thumbnail.RelPermalink }}
+    {{ $bgUrl := or $gallery.full.RelPermalink $gallery.thumbnail.RelPermalink }}
     <section class="featured" id="featured">
       <div class="featured-header-row">
         <span class="section-label">SPOTLIGHT</span>

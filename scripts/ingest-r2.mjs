@@ -13,7 +13,16 @@ const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
 const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
 
 // 1. Check Credentials
+const isProductionPages =
+  process.env.CF_PAGES === "1" &&
+  process.env.CF_PAGES_BRANCH === (process.env.PRODUCTION_BRANCH || "master");
+const isIngestRequired = process.env.R2_INGEST_REQUIRED === "true" || isProductionPages;
+
 if (!R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
+  if (isIngestRequired) {
+    console.error("❌ Fatal error: R2 credentials missing in production build environment (R2_ACCESS_KEY_ID or R2_SECRET_ACCESS_KEY).");
+    process.exit(1);
+  }
   console.log("ℹ️  No R2 credentials detected in environment. Falling back to existing committed static manifests.");
   process.exit(0);
 }
@@ -111,12 +120,15 @@ async function conditionallyWriteFile(filePath, newContent) {
   return true;
 }
 
+const IS_FORCE = process.env.R2_FORCE === "1" || process.argv.includes("--force");
+
 // Backfill metadata for existing derivatives if missing
-async function ensureMetadataBackfilled(album, baseName, existingManifestItem) {
+async function ensureMetadataBackfilled(album, origObj, baseName, existingManifestItem) {
   if (!existingManifestItem) return;
 
   const fullKey = `${album}/1600/${baseName}.webp`;
   const thumbKey = `${album}/600/${baseName}.webp`;
+  const cleanOrigEtag = origObj?.ETag ? origObj.ETag.replace(/["']/g, "") : "";
 
   const [thumbHead, fullHead] = await Promise.all([headObjectSafe(thumbKey), headObjectSafe(fullKey)]);
 
@@ -138,6 +150,7 @@ async function ensureMetadataBackfilled(album, baseName, existingManifestItem) {
           color: existingManifestItem.color || "#1a1a1a",
           basename: baseName,
           title: encodeURIComponent(existingManifestItem.title || baseName),
+          origetag: cleanOrigEtag,
         },
       }),
     );
@@ -157,28 +170,34 @@ async function ensureMetadataBackfilled(album, baseName, existingManifestItem) {
           width: String(existingManifestItem.fullWidth || 1600),
           height: String(existingManifestItem.fullHeight || 1067),
           basename: baseName,
+          origetag: cleanOrigEtag,
         },
       }),
     );
   }
 }
 
-async function processOriginalImage(album, fileKey, existingManifestItem) {
+async function processOriginalImage(album, origObj, existingManifestItem) {
+  const fileKey = origObj.Key;
   const fileName = path.basename(fileKey);
   const fileBase = path.parse(fileName).name;
   const fullKey = `${album}/1600/${fileBase}.webp`;
   const thumbKey = `${album}/600/${fileBase}.webp`;
+  const cleanOrigEtag = origObj.ETag ? origObj.ETag.replace(/["']/g, "") : "";
 
   // Idempotent check
   let [thumbHead, fullHead] = await Promise.all([headObjectSafe(thumbKey), headObjectSafe(fullKey)]);
 
   // Backfill if needed
   if (thumbHead && fullHead && (!thumbHead.Metadata?.width || !fullHead.Metadata?.width)) {
-    await ensureMetadataBackfilled(album, fileBase, existingManifestItem);
+    await ensureMetadataBackfilled(album, origObj, fileBase, existingManifestItem);
     [thumbHead, fullHead] = await Promise.all([headObjectSafe(thumbKey), headObjectSafe(fullKey)]);
   }
 
-  if (thumbHead && fullHead && thumbHead.Metadata?.width && fullHead.Metadata?.width) {
+  const thumbOrigEtag = thumbHead?.Metadata?.origetag;
+  const isEtagMatch = !thumbOrigEtag || !cleanOrigEtag || thumbOrigEtag === cleanOrigEtag;
+
+  if (!IS_FORCE && thumbHead && fullHead && thumbHead.Metadata?.width && fullHead.Metadata?.width && isEtagMatch) {
     const thumbMeta = thumbHead.Metadata;
     const fullMeta = fullHead.Metadata;
     const decodedTitle = thumbMeta.title ? decodeURIComponent(thumbMeta.title) : existingManifestItem?.title || fileBase;
@@ -253,6 +272,7 @@ async function processOriginalImage(album, fileKey, existingManifestItem) {
           width: String(fullMetaInfo.width),
           height: String(fullMetaInfo.height),
           basename: fileBase,
+          origetag: cleanOrigEtag,
         },
       }),
     ),
@@ -269,6 +289,7 @@ async function processOriginalImage(album, fileKey, existingManifestItem) {
           color: color,
           basename: fileBase,
           title: encodeURIComponent(title),
+          origetag: cleanOrigEtag,
         },
       }),
     ),
@@ -320,7 +341,7 @@ async function ingestAlbum(albumName) {
     }
   }
 
-  const tasks = imageObjects.map((obj) => limit(() => processOriginalImage(albumName, obj.Key, manifestMap.get(path.basename(obj.Key)))));
+  const tasks = imageObjects.map((obj) => limit(() => processOriginalImage(albumName, obj, manifestMap.get(path.basename(obj.Key)))));
 
   const images = await Promise.all(tasks);
 

@@ -4,29 +4,9 @@
 <meta property="og:url" content="{{ .Permalink }}" />
 
 {{- $ogImage := "" -}}
-{{- $manifestResource := $.Resources.GetMatch "manifest.json" -}}
-{{- if $manifestResource -}}
-  {{- $manifest := $manifestResource.Content | transform.Unmarshal -}}
-  {{- if and $manifest (gt (len $manifest.images) 0) -}}
-    {{- $chosen := index $manifest.images 0 -}}
-    {{- with $.Params.featured_image -}}
-      {{- $featName := . -}}
-      {{- range $manifest.images -}}
-        {{- if or (eq .name $featName) (eq .baseName $featName) -}}
-          {{- $chosen = . -}}
-        {{- end -}}
-      {{- end -}}
-    {{- end -}}
-    {{- $ogImage = $chosen.fullUrl | default $chosen.thumbUrl -}}
-  {{- end -}}
-{{- end -}}
-
-{{- if not $ogImage -}}
-  {{- $images := $.Resources.ByType "image" -}}
-  {{- $featured := ($images.GetMatch (.Params.featured_image | default "*feature*")) | default (index $images 0) -}}
-  {{- with $featured -}}
-    {{- $ogImage = .Permalink -}}
-  {{- end -}}
+{{- $gallery := partial "get-gallery.html" . -}}
+{{- if $gallery -}}
+  {{- $ogImage = or $gallery.full.RelPermalink $gallery.thumbnail.RelPermalink -}}
 {{- end -}}
 
 {{- with $ogImage -}}
