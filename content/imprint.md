@@ -4,7 +4,8 @@ rss_ignore: true
 layout: page
 menus:
   footer:
-    weight: 1
+    name: Imprint
+    weight: 20
 ---
 
 ### Colophon

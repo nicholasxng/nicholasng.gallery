@@ -1,11 +1,15 @@
-<footer>
-  {{ partialCached "social-icons.html" . }}
-  <section>
-    {{ .Site.Copyright }}
-    {{ range .Site.Menus.footer }}
-      <a {{ with .Params.rel -}}rel="{{ . }}"{{ end -}} href="{{ .URL }}">
-        {{ .Name }}
-      </a>
-    {{ end }}
-  </section>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copyright">
+      &copy; {{ now.Format "2006" }} {{ .Site.Title }} &middot; All rights reserved
+    </div>
+    <nav class="footer-nav" aria-label="Footer Navigation">
+      {{ range .Site.Menus.footer }}
+        <a {{ with .Params.rel -}}rel="{{ . }}"{{ end -}} href="{{ .URL }}">
+          {{ .Name }}
+        </a>
+      {{ end }}
+    </nav>
+  </div>
 </footer>
+

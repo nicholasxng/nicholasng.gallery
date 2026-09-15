@@ -533,58 +533,68 @@ section.gallery {
 }
 
 /* ==========================================================================
-   Footer
+   Footer (Editorial 1-Line)
    ========================================================================== */
+body > footer.site-footer,
 body > footer {
-  border-top: 1px solid color-mix(in srgb, var(--outline-variant) 35%, transparent);
-  padding: 3.5rem 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--outline-variant) 25%, transparent);
+  padding: 2.25rem 2rem;
   margin-top: auto;
-  background-color: color-mix(in srgb, var(--surface-2) 40%, transparent);
+  background: transparent;
+  width: 100%;
 }
 
-body > footer section {
+.footer-inner {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  max-width: 900px;
+  max-width: 1280px;
   margin: 0 auto;
-  text-align: center;
-}
-
-.social-icons {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.social-icons a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background-color: var(--surface-2);
-  border: 1px solid color-mix(in srgb, var(--outline-variant) 40%, transparent);
+  width: 100%;
+  font-size: 0.8125rem;
+  letter-spacing: 0.015em;
   color: var(--text-2);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.social-icons a:hover {
-  color: var(--primary);
-  border-color: var(--primary);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px -2px color-mix(in srgb, var(--primary) 30%, transparent);
+.footer-copyright {
+  font-weight: 400;
+  color: var(--text-2);
+  opacity: 0.85;
 }
 
-body > footer a {
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.footer-nav a {
   color: var(--text-2);
   font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  opacity: 0.85;
 }
 
-body > footer a:hover {
+.footer-nav a:hover {
   color: var(--primary);
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  body > footer.site-footer,
+  body > footer {
+    padding: 2rem 1.25rem;
+  }
+
+  .footer-inner {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-nav {
+    justify-content: center;
+    gap: 1.5rem;
+  }
 }
