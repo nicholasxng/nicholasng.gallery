@@ -256,161 +256,48 @@ html.light .icon-moon {
   padding: 0 1.5rem;
 }
 
-.featured-card {
-  position: relative;
+.bento-card--spotlight {
+  border-color: color-mix(in srgb, var(--primary) 28%, var(--outline-variant));
+  box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--primary) 12%, rgba(0, 0, 0, 0.25));
+}
+
+.bento-card--spotlight:hover {
+  border-color: var(--primary);
+  box-shadow: 0 25px 55px -12px color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+.card-media-wrapper--spotlight {
+  aspect-ratio: 16/9;
+}
+
+@media (min-width: 768px) {
+  .card-media-wrapper--spotlight {
+    aspect-ratio: 21/9;
+  }
+}
+
+.card-details--spotlight {
+  padding: 1.75rem 2rem;
+}
+
+.card-title-group {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  min-height: 500px;
-  border-radius: 1.75rem;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  border: 1px solid color-mix(in srgb, var(--outline-variant) 40%, transparent);
-  box-shadow: 0 12px 35px -10px rgba(0, 0, 0, 0.12);
-  text-decoration: none;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease;
+  gap: 0.35rem;
 }
 
-.featured-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(14, 13, 12, 0.94) 0%,
-    rgba(14, 13, 12, 0.55) 45%,
-    rgba(14, 13, 12, 0.12) 100%
-  );
-  transition: opacity 0.35s ease;
-}
-
-.featured-card:hover {
-  transform: translateY(-5px) scale(1.006);
-  border-color: var(--primary);
-  box-shadow: 0 25px 60px -15px color-mix(in srgb, var(--primary) 28%, transparent);
-}
-
-.featured-badges-top {
-  position: absolute;
-  top: 1.75rem;
-  left: 1.75rem;
-  right: 1.75rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 2;
-}
-
-.badge-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.badge-pill--accent {
-  background-color: color-mix(in srgb, var(--primary) 92%, black 8%);
-  color: #ffffff;
-  box-shadow: 0 4px 16px rgba(223, 161, 41, 0.4);
-}
-
-.badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #ffffff;
-}
-
-.badge-arrow {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.3s ease,
-              border-color 0.3s ease;
-}
-
-.featured-card:hover .badge-arrow {
-  transform: scale(1.1) translate(3px, -3px);
-  background-color: var(--primary);
-  border-color: var(--primary);
-  color: #ffffff;
-}
-
-.featured-content-bottom {
-  position: relative;
-  z-index: 2;
-  padding: 2.5rem;
-  color: #ffffff;
-}
-
-.featured-category {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--primary);
-  margin-bottom: 0.5rem;
-}
-
-.featured-content-bottom h2 {
-  font-size: clamp(1.85rem, 4vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin: 0 0 1.25rem;
-  color: #ffffff;
-}
-
-.featured-meta-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.meta-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: #f1eded;
-}
-
-.meta-view-prompt {
+.spotlight-category {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--primary);
-  transition: transform 0.2s ease;
 }
 
-.featured-card:hover .meta-view-prompt {
-  transform: translateX(4px);
+.spotlight-title {
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 /* ==========================================================================
