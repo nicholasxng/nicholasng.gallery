@@ -3,7 +3,7 @@
     {{ $gallery := partial "get-gallery.html" . }}
     {{ if $gallery }}
       {{ range sort $gallery.items (.Params.sort_by | default "Name") (.Params.sort_order | default "asc") }}
-        <a class="gallery-item" href="{{ .origUrl }}" data-pswp-src="{{ .fullUrl }}" data-pswp-width="{{ .fullWidth }}" data-pswp-height="{{ .fullHeight }}" title="{{ .Title }}" itemscope itemtype="https://schema.org/ImageObject" style="aspect-ratio: {{ .thumbWidth }} / {{ .thumbHeight }}">
+        <a class="gallery-item" href="{{ .origUrl }}" data-pswp-src="{{ .fullUrl }}" data-pswp-width="{{ .fullWidth }}" data-pswp-height="{{ .fullHeight }}" itemscope itemtype="https://schema.org/ImageObject" style="aspect-ratio: {{ .thumbWidth }} / {{ .thumbHeight }}">
           <img loading="lazy" width="{{ .thumbWidth }}" height="{{ .thumbHeight }}" src="{{ .thumbUrl }}" style="background-color: {{ .color }}" alt="{{ .Title }}" />
           <meta itemprop="contentUrl" content="{{ .origUrl }}" />
           {{ with site.Params.Author }}
