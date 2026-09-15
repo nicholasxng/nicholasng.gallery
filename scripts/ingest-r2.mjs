@@ -206,13 +206,13 @@ async function processOriginalImage(album, origObj, existingManifestItem) {
       name: fileName,
       baseName: fileBase,
       title: decodedTitle,
-      thumbUrl: `${R2_PUBLIC_BASE}/${thumbKey}`,
+      thumbUrl: `${R2_PUBLIC_BASE}/${encodeURI(thumbKey)}`,
       thumbWidth: parseInt(thumbMeta.width, 10),
       thumbHeight: parseInt(thumbMeta.height, 10),
-      fullUrl: `${R2_PUBLIC_BASE}/${fullKey}`,
+      fullUrl: `${R2_PUBLIC_BASE}/${encodeURI(fullKey)}`,
       fullWidth: parseInt(fullMeta.width, 10),
       fullHeight: parseInt(fullMeta.height, 10),
-      origUrl: `${R2_PUBLIC_BASE}/${fileKey}`,
+      origUrl: `${R2_PUBLIC_BASE}/${encodeURI(fileKey)}`,
       color: thumbMeta.color || existingManifestItem?.color || "#1a1a1a",
     };
   }
@@ -299,13 +299,13 @@ async function processOriginalImage(album, origObj, existingManifestItem) {
     name: fileName,
     baseName: fileBase,
     title: title,
-    thumbUrl: `${R2_PUBLIC_BASE}/${thumbKey}`,
+    thumbUrl: `${R2_PUBLIC_BASE}/${encodeURI(thumbKey)}`,
     thumbWidth: thumbMetaInfo.width,
     thumbHeight: thumbMetaInfo.height,
-    fullUrl: `${R2_PUBLIC_BASE}/${fullKey}`,
+    fullUrl: `${R2_PUBLIC_BASE}/${encodeURI(fullKey)}`,
     fullWidth: fullMetaInfo.width,
     fullHeight: fullMetaInfo.height,
-    origUrl: `${R2_PUBLIC_BASE}/${fileKey}`,
+    origUrl: `${R2_PUBLIC_BASE}/${encodeURI(fileKey)}`,
     color: color,
   };
 }
