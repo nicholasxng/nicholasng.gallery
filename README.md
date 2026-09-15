@@ -48,14 +48,16 @@ npm run build
 All raw photography assets live in Cloudflare R2 (`nicholasng-gallery`). Git contains zero image binaries.
 
 ### Operator Workflow
-1. Upload full-resolution originals into `<album>/original/` in Cloudflare R2 (e.g. `nature/original/photo.jpg`).
+1. Upload full-resolution originals into `<album>/original/` or `<album>/general/` in Cloudflare R2 (e.g. `nature/original/photo.jpg` or `2013 Ecuador/general/photo.jpg`).
 2. Cloudflare Pages runs `npm run build` at deploy time:
-   - Discovers new originals and checks existing derivatives idempotently via `HeadObjectCommand`.
+   - Discovers new photos and checks existing derivatives idempotently via `HeadObjectCommand`.
    - Generates 1600px display and 600px thumbnail WebP derivatives with Sharp.
    - Saves dominant color hex, dimensions, and EXIF title directly into S3 metadata headers (`x-amz-meta-*`).
    - If an original photo is replaced in R2 with the same name, ETag change detection automatically triggers derivative regeneration. (You can also force re-processing via `npm run ingest -- --force` or `R2_FORCE=1 npm run build`).
    - Note on deletions: Removing an original photo from R2 removes it from the manifest on subsequent builds; existing derivatives remain in R2 unless manually pruned.
    - Builds static site with Hugo and deploys via Cloudflare edge CDN (`media.nicholasng.me`).
+3. (Optional) Customize the album in Git:
+   - In `content/<album>/index.md`, set `title`, `description`, `weight` (determines homepage card order, e.g. `1`, `2`, `3`), and `featured_image` (the filename to use as the cover image).
 
 ### Environment Variables (Cloudflare Pages Production)
 - `NODE_VERSION`: `20`
@@ -69,9 +71,10 @@ All raw photography assets live in Cloudflare R2 (`nicholasng-gallery`). Git con
 
 ## 📁 Content Structure
 
-- `content/nature/`: Landscape and outdoor photography albums.
-- `content/featured-album/`: Featured visual captures and showcases.
-- `content/animals/`: Wildlife and pet photography.
+- `content/animals/`: Wildlife and pet photography (`weight: 2`).
+- `content/nature/`: Landscape and outdoor photography (`weight: 3`).
+- `content/2008 October Eastern Europe/`: Eastern Europe travel collection (`weight: 4`).
+- `content/featured-album/`: Featured visual captures showcase (hero section, `private: true`).
 - `content/about.md`: About page & bio.
 - `content/imprint.md`: Colophon & copyright information.
 

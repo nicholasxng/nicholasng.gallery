@@ -312,11 +312,27 @@ async function processOriginalImage(album, origObj, existingManifestItem) {
 
 async function ingestAlbum(albumName) {
   console.log(`\n📂 Ingesting album from R2: "${albumName}"...`);
-  const originalObjects = await listAllObjectsWithPrefix(`${albumName}/original/`);
-  const imageObjects = originalObjects.filter((o) => /\.(jpe?g|png|webp|avif)$/i.test(o.Key));
+  let sourcePrefix = `${albumName}/original/`;
+  let originalObjects = await listAllObjectsWithPrefix(sourcePrefix);
+  let imageObjects = originalObjects.filter((o) => /\.(jpe?g|png|webp|avif)$/i.test(o.Key));
 
   if (imageObjects.length === 0) {
-    console.log(`  ℹ️  No original images found under "${albumName}/original/". Skipping.`);
+    for (const alt of ["general/", "General/", "Original/"]) {
+      const altPrefix = `${albumName}/${alt}`;
+      const altObjects = await listAllObjectsWithPrefix(altPrefix);
+      const altImages = altObjects.filter((o) => /\.(jpe?g|png|webp|avif)$/i.test(o.Key));
+      if (altImages.length > 0) {
+        sourcePrefix = altPrefix;
+        originalObjects = altObjects;
+        imageObjects = altImages;
+        console.log(`  ℹ️  Found ${imageObjects.length} images under alternative folder "${altPrefix}".`);
+        break;
+      }
+    }
+  }
+
+  if (imageObjects.length === 0) {
+    console.log(`  ℹ️  No images found under "${albumName}/original/" or "${albumName}/general/". Skipping.`);
     return;
   }
 
