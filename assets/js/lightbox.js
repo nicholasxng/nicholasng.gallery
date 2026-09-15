@@ -1,6 +1,5 @@
 import PhotoSwipeLightbox from "./photoswipe/photoswipe-lightbox.esm.js";
 import PhotoSwipe from "./photoswipe/photoswipe.esm.js";
-import PhotoSwipeDynamicCaption from "./photoswipe/photoswipe-dynamic-caption-plugin.esm.min.js";
 import * as params from "@params";
 
 const gallery = document.getElementById("gallery");
@@ -64,12 +63,6 @@ if (gallery) {
 
   lightbox.on("close", () => {
     history.replaceState("", document.title, window.location.pathname);
-  });
-
-  new PhotoSwipeDynamicCaption(lightbox, {
-    mobileLayoutBreakpoint: 700,
-    type: "auto",
-    mobileCaptionOverlapRatio: 1,
   });
 
   lightbox.init();
