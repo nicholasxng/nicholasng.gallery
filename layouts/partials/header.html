@@ -7,13 +7,14 @@
         </svg>
       </a>
       <a class="btn brand-btn" href="{{ .Site.Home.RelPermalink }}">
+        <img class="brand-avatar" src="{{ "images/avatar.png" | relURL }}" width="28" height="28" alt="{{ .Site.Title }}" />
         <span class="brand-name">{{ .Site.Title }}</span>
         <span class="brand-divider">/</span>
         <span class="brand-sub">{{ .Title }}</span>
       </a>
     {{ else }}
       <a class="btn brand-btn" href="{{ .Site.Home.RelPermalink }}">
-        <span class="brand-dot"></span>
+        <img class="brand-avatar" src="{{ "images/avatar.png" | relURL }}" width="28" height="28" alt="{{ .Site.Title }}" />
         <span class="brand-name">{{ .Site.Title }}</span>
       </a>
     {{ end }}
