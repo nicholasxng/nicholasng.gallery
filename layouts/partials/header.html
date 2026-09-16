@@ -6,18 +6,51 @@
           <path clip-rule="evenodd" fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z"></path>
         </svg>
       </a>
-      <a class="btn brand-btn" href="{{ .Site.Home.RelPermalink }}">
-        <img class="brand-avatar" src="{{ "images/avatar.png" | relURL }}" width="28" height="28" alt="{{ .Site.Title }}" />
-        <span class="brand-name">{{ .Site.Title }}</span>
+    {{ end }}
+
+    <div class="brand-popover-container" id="brand-popover-container">
+      <button class="btn btn-avatar-trigger" id="avatar-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Photographer profile">
+        <img class="brand-avatar" src="{{ "images/avatar.png" | relURL }}" width="32" height="32" alt="{{ .Site.Title }}" />
+      </button>
+
+      <!-- Floating Popover Profile Card -->
+      <div class="brand-popover-card" id="brand-popover-card" role="dialog" aria-label="About Nicholas Ng">
+        <div class="popover-profile-header">
+          <div class="popover-avatar-wrap">
+            <img class="popover-avatar" src="{{ "images/avatar.png" | relURL }}" width="76" height="76" alt="{{ .Site.Title }}" />
+            <span class="popover-badge">Lens</span>
+          </div>
+          <div class="popover-identity">
+            <h2 class="popover-name">{{ .Site.Title }}</h2>
+            <p class="popover-role">Photographer &amp; Creator</p>
+            <p class="popover-location">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+              Auckland, NZ
+            </p>
+          </div>
+        </div>
+        <p class="popover-bio">
+          Curated visual journal documenting landscape explorations, wildlife encounters, and travel photography.
+        </p>
+        <div class="popover-footer">
+          {{ with .Site.Params.socialIcons.github }}
+            <a class="popover-link" href="{{ . }}" target="_blank" rel="noopener noreferrer">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              GitHub
+            </a>
+          {{ end }}
+          <a class="popover-link" href="{{ "about" | relURL }}">About &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn brand-btn" href="{{ .Site.Home.RelPermalink }}">
+      <span class="brand-name">{{ .Site.Title }}</span>
+      {{ if .Parent }}
         <span class="brand-divider">/</span>
         <span class="brand-sub">{{ .Title }}</span>
-      </a>
-    {{ else }}
-      <a class="btn brand-btn" href="{{ .Site.Home.RelPermalink }}">
-        <img class="brand-avatar" src="{{ "images/avatar.png" | relURL }}" width="28" height="28" alt="{{ .Site.Title }}" />
-        <span class="brand-name">{{ .Site.Title }}</span>
-      </a>
-    {{ end }}
+      {{ end }}
+    </a>
   </div>
 
   <ul class="header-actions">
