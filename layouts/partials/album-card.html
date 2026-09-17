@@ -1,6 +1,7 @@
 {{ $gallery := partial "get-gallery.html" . }}
 {{ with $gallery }}
   <a class="card bento-card" href="{{ .page.RelPermalink }}" title="View {{ .page.Title }} Gallery">
+    <span class="bento-glow" aria-hidden="true"></span>
     <div class="card-media-wrapper">
       <img loading="lazy" width="{{ .thumbnail.Width }}" height="{{ .thumbnail.Height }}" src="{{ .thumbnail.RelPermalink }}" style="background-color: {{ .color }}" alt="{{ .page.Title }}" />
       <div class="card-badges-overlay">

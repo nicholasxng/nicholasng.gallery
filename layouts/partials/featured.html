@@ -8,6 +8,7 @@
         <span class="section-divider"></span>
       </div>
       <a class="card bento-card bento-card--spotlight" href="{{ .RelPermalink }}" title="View {{ .Title }} Gallery">
+        <span class="bento-glow" aria-hidden="true"></span>
         <div class="card-media-wrapper card-media-wrapper--spotlight">
           <img loading="eager" width="{{ $heroImage.Width }}" height="{{ $heroImage.Height }}" src="{{ $heroImage.RelPermalink }}" style="background-color: {{ $gallery.color }}" alt="{{ .Title }}" />
           <div class="card-badges-overlay">
