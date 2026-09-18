@@ -506,7 +506,7 @@ html.light .icon-moon {
   border-radius: 1.5rem;
   background-color: var(--surface-2);
   border: 1px solid color-mix(in srgb, var(--outline-variant) 40%, transparent);
-  overflow: hidden;
+  overflow: visible;
   text-decoration: none;
   box-shadow: 0 6px 20px -6px rgba(0, 0, 0, 0.08);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -522,7 +522,7 @@ html.light .icon-moon {
 
 .bento-glow {
   position: absolute;
-  inset: 0;
+  inset: -2px;
   z-index: 10;
   border-radius: inherit;
   padding: 2px;
@@ -545,12 +545,15 @@ html.light .icon-moon {
   aspect-ratio: 1;
   background: conic-gradient(
     from 0deg,
-    transparent 55deg,
-    var(--primary) 95deg,
-    transparent 135deg
+    transparent 50deg,
+    var(--primary) 90deg,
+    transparent 130deg,
+    transparent 230deg,
+    var(--primary) 270deg,
+    transparent 310deg
   );
   transform: translate(-50%, -50%) rotate(0deg);
-  animation: bento-glow-spin 6s linear infinite;
+  animation: bento-glow-spin 4s linear infinite;
 }
 
 .bento-card:hover .bento-glow,
@@ -564,26 +567,9 @@ html.light .icon-moon {
   box-shadow: 0 20px 45px -12px color-mix(in srgb, var(--primary) 22%, transparent);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bento-card,
-  .bento-card .card-media-wrapper img,
-  .bento-card .card-arrow-circle,
-  .bento-card .card-indicator {
-    transform: none;
-    transition: none;
-  }
-
-  .bento-glow {
-    transition: none;
-  }
-
-  .bento-glow::before {
-    animation: none;
-  }
-}
-
 .card-media-wrapper {
   position: relative;
+  border-radius: 1.5rem 1.5rem 0 0;
   aspect-ratio: 16/10;
   overflow: hidden;
   background-color: var(--surface-container-low);
